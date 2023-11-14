@@ -5,17 +5,25 @@ import (
 	"log"
 )
 
+type Method string
+
 const (
 	MAX_SHIFT = 25
 	Z_ASCII = 122
 	A_ASCII = 97
+	ENCRYPT Method = "encrypt"
+	DECRYPT Method = "decrypt"
 )
-func cryptography(input string, shift int, action string) string {
+
+func cryptography(input string, shift int, action string) (string, error){
 
 	if action == "encrypt" {
-		return encrypt(input, shift)
+		return encrypt(input, shift), nil
+	} else if action == "decrypt" {
+		return decrypt(input, shift), nil
 	} else {
-		return decrypt(input, shift)
+		return "", fmt.Errorf("unknown action: '%s'", action)
+
 	}
 }
 
@@ -59,8 +67,15 @@ func main() {
 		log.Fatalf("shift is bigger than max: %d", MAX_SHIFT)
 	}
 
-	encryptedText := cryptography(input, shift, "encrypt")
-	decrypted := cryptography(encryptedText, shift, "decrypt")
+	encryptedText, err := cryptography(input, shift, "encrypt")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	decrypted, err := cryptography(encryptedText, shift, "decrypt")
+	if err != nil {
+		panic(err.Error())
+	}
 
 	log.Printf("encrypted: %s", encryptedText)
 	log.Printf("decrypted: %s", decrypted)

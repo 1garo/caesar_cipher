@@ -1,4 +1,4 @@
-package main
+package cesar_cipher
 
 import (
 	"fmt"
@@ -15,7 +15,15 @@ const (
 	DECRYPT Method = "decrypt"
 )
 
-func cryptography(input string, shift int, action string) (string, error){
+/* Cesar returns encrypted or decrypted string based on `action` param.
+	e.g:
+		encrpyt -> encryptedText, err := Cesar(input, "encrypt", 5)
+		decrypt -> decrypted, err := Cesar(encryptedText, "decrypt", 5)
+*/
+func Cesar(input string, action Method, shift int) (string, error) {
+	if shift > MAX_SHIFT {
+		log.Fatalf("shift is bigger than max: %d", MAX_SHIFT)
+	}
 
 	if action == "encrypt" {
 		return encrypt(input, shift), nil
@@ -23,13 +31,14 @@ func cryptography(input string, shift int, action string) (string, error){
 		return decrypt(input, shift), nil
 	} else {
 		return "", fmt.Errorf("unknown action: '%s'", action)
-
 	}
 }
 
+// encrypt returns a encrypted string based on input and shift
 func encrypt(input string, shift int) string {
 	var encrypted string
 
+	// TODO: make this works for CAPTIAL LETTERS
 	for i := 0; i < len(input); i++ {
 		ascii := int(input[i]) + shift
 		if ascii > Z_ASCII {
@@ -43,9 +52,11 @@ func encrypt(input string, shift int) string {
 	return encrypted
 }
 
+// decrypt returns the string decrypted
 func decrypt(input string, shift int) string {
 	var decrypted string
 
+	// TODO: make this works for CAPTIAL LETTERS
 	for i := 0; i < len(input); i++ {
 		ascii := int(input[i]) - shift
 		if ascii < A_ASCII {
@@ -59,25 +70,3 @@ func decrypt(input string, shift int) string {
 	return decrypted
 }
 
-func main() {
-	input := "zzz"
-	shift := 1
-
-	if shift > MAX_SHIFT {
-		log.Fatalf("shift is bigger than max: %d", MAX_SHIFT)
-	}
-
-	encryptedText, err := cryptography(input, shift, "encrypt")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	decrypted, err := cryptography(encryptedText, shift, "decrypt")
-	if err != nil {
-		panic(err.Error())
-	}
-
-	log.Printf("encrypted: %s", encryptedText)
-	log.Printf("decrypted: %s", decrypted)
-	log.Printf("bool: %t", decrypted == input)
-}

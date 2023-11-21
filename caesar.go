@@ -1,4 +1,4 @@
-package cesar_cipher
+package caesar_cipher
 
 import (
 	"fmt"
@@ -15,12 +15,12 @@ const (
 	DECRYPT Method = "decrypt"
 )
 
-/* Cesar returns encrypted or decrypted string based on `action` param.
+/* Caesar returns encrypted or decrypted string based on `action` param.
 	e.g:
-		encrpyt -> encryptedText, err := Cesar(input, "encrypt", 5)
-		decrypt -> decrypted, err := Cesar(encryptedText, "decrypt", 5)
+		encrpyt -> encryptedText, err := Caesar(input, "encrypt", 5)
+		decrypt -> decrypted, err := Caesar(encryptedText, "decrypt", 5)
 */
-func Cesar(input string, action Method, shift int) (string, error) {
+func Caesar(input string, action Method, shift int) (string, error) {
 	if shift > MAX_SHIFT {
 		log.Fatalf("shift is bigger than max: %d", MAX_SHIFT)
 	}

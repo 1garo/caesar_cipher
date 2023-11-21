@@ -1,4 +1,4 @@
-package cesar_cipher
+package caesar_cipher
 
 import "testing"
 
@@ -8,7 +8,7 @@ func TestCesarEncrypt(t *testing.T) {
 	input := "aaa"
 	shift := 1
 	expected := "bbb"
-	encrypted, err := Cesar(input, "encrypt", shift)
+	encrypted, err := Caesar(input, "encrypt", shift)
 	if err != nil {
 		t.Fatalf("failed with error: %s", err)
 	}
@@ -23,7 +23,7 @@ func TestCesarDecrypt(t *testing.T) {
 	shift := 1
 	expected := "bbb"
 
-	encryptedText, err := Cesar(input, "encrypt", shift)
+	encryptedText, err := Caesar(input, "encrypt", shift)
 	if err != nil {
 		t.Fatalf("failed with error: %s", err)
 	}
@@ -32,7 +32,7 @@ func TestCesarDecrypt(t *testing.T) {
 		t.Fatalf("received: %s expected: %s", encryptedText, expected)
 	}
 
-	decrypt, err := Cesar(encryptedText, "decrypt", shift)
+	decrypt, err := Caesar(encryptedText, "decrypt", shift)
 	if err != nil {
 		t.Fatalf("failed with error: %s", err)
 	}
@@ -46,7 +46,7 @@ func TestCesarDecrypt(t *testing.T) {
 func TestUnknownActionType(t *testing.T) {
 	input := "aaa"
 	shift := 1
-	_, err := Cesar(input, "unknown", shift)
+	_, err := Caesar(input, "unknown", shift)
 
 	if err == nil {
 		t.Fatal("error should not be nil")
